@@ -38,4 +38,23 @@ export const SearchButton = styled.TouchableOpacity`
 `;
 
 
+export const Title = styled.Text`
+  color: #fff;
+  margin: 20px 0 10px 15px;
+  font-size: 24px;
+  font-weight: bold;
+`;
+
+export const BannerButton = styled.TouchableOpacity`
+`;
+
+export const Banner = styled.Image`
+  border-radius: 15px;
+  height: 200px;
+  margin: 0 2px;
+`;
+
+
+
+
 
