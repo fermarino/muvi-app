@@ -1,10 +1,15 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { Text } from "react-native";
+import { Container } from './styles'
+
+import Header from '../../components/Header'
 
 function Home() {
-  <View>
-    <Text>Tela Home</Text>
-  </View>
+  return(
+    <Container>
+      <Header title="Muvi"/>
+    </Container>
+  )
 }
 
 export default Home;
