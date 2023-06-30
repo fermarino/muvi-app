@@ -18,6 +18,8 @@ import SliderMovie from '../../components/SliderMovie';
 import api, { key } from '../../services/api';
 import { getListMovies, randomMovie } from '../../utils/movie';
 
+import { useNavigation } from '@react-navigation/native';
+
 function Home() {
   
   const [nowMovies, setNowMovies] = useState([]);
@@ -25,6 +27,8 @@ function Home() {
   const [topMovies, setTopMovies] = useState([]);
   const [bannerMovie, setBannerMovie] = useState({});
   const [loading, setLoading] = useState(true);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     let isActive = true;
@@ -78,6 +82,11 @@ function Home() {
     }
   }, [])
 
+
+  function navigateDetailsPage(item) {
+    navigation.navigate('Details', { id: item.id });
+  }
+
   if(loading) {
     return(
       <Container>
@@ -91,7 +100,7 @@ function Home() {
       <Header title="Muvi" />
 
       <SearchContainer>
-        <Input placeholder="Pesquisar" placeholderTextColor="#495057" />
+        <Input placeholder="Pesquisar filme" placeholderTextColor="#495057" />
         <SearchButton>
           <Feather name="search" size={25} color="#fff" />
         </SearchButton>
@@ -100,7 +109,7 @@ function Home() {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Title>Em cartaz</Title>
 
-        <BannerButton activeOpacity={0.8} onPress={() => alert('Clicou')}>
+        <BannerButton activeOpacity={0.8} onPress={ () => navigateDetailsPage(bannerMovie) } >
           <Banner
             resizeMethod="resize"
             source={{
@@ -113,7 +122,7 @@ function Home() {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           data={nowMovies}
-          renderItem={({ item }) => <SliderMovie data={item} />}
+          renderItem={ ({ item } ) => <SliderMovie data={item} navigatePage={ () => navigateDetailsPage(item) } /> }
           keyExtractor={ (item) => String(item.id) }
         />
 
@@ -122,7 +131,7 @@ function Home() {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           data={popularMovies}
-          renderItem={({ item }) => <SliderMovie data={item} />}
+          renderItem={({ item }) => <SliderMovie data={item} navigatePage={ () => navigateDetailsPage(item) } />}
           keyExtractor={ (item) => String(item.id) }
         />
         
@@ -131,7 +140,7 @@ function Home() {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           data={topMovies}
-          renderItem={({ item }) => <SliderMovie data={item} />}
+          renderItem={({ item }) => <SliderMovie data={item} navigatePage={ () => navigateDetailsPage(item) } />}
           keyExtractor={ (item) => String(item.id) }
         />
       </ScrollView>
