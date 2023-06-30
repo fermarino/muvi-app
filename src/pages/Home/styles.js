@@ -54,6 +54,11 @@ export const Banner = styled.Image`
   margin: 0 2px;
 `;
 
+export const Slider = styled.FlatList`
+  height: 250px;
+  padding: 0 15px;
+`;
+
 
 
 
