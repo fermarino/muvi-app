@@ -3,13 +3,19 @@ import {
   Container,
   Header,
   HeaderButton,
-  Banner
+  Banner,
+  LinkButton,
+  Title,
+  RatingArea,
+  Rate,
+  GenreList
 } from './styles';
 
 import { Feather, Ionicons } from '@expo/vector-icons';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
 import api, { key } from '../../services/api';
+import Genres from '../../components/Genres';
 
 function Details() {
   const navigation = useNavigation();
@@ -66,8 +72,27 @@ function Details() {
 
       <Banner
         resizeMethod='resize'
-        source={{ uri: `https://image.tmdb.org/t/p/original/${movie.poster_path}` }}
+        source={{ uri: `https://image.tmdb.org/t/p/original/${movie.backdrop_path}` }}
       />
+
+      <LinkButton>
+        <Feather name="link" size={20} color="#fff"/>
+      </LinkButton>
+
+      <RatingArea>
+        <Ionicons name='star' size={18} color='#000'/>
+        <Rate>{movie.vote_average}/10</Rate>
+      </RatingArea>
+
+      <Title numberOfLines={2}>{movie.title}</Title>
+
+      <GenreList
+        data={movie?.genres}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={ (item) => String(item.id) }
+        renderItem={( {item} ) =>  <Genres data={item} />}
+       />
     </Container>
   );
 }
