@@ -50,8 +50,9 @@ export const BannerButton = styled.TouchableOpacity`
 
 export const Banner = styled.Image`
   border-radius: 15px;
-  height: 200px;
+  height: 250px;
   margin: 0 2px;
+  object-fit: fill;
 `;
 
 export const Slider = styled.FlatList`

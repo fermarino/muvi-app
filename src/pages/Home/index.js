@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView } from 'react-native';
+import { ActivityIndicator, ScrollView } from 'react-native';
 import {
   Container,
   SearchContainer,
@@ -16,16 +16,19 @@ import Header from '../../components/Header';
 import SliderMovie from '../../components/SliderMovie';
 
 import api, { key } from '../../services/api';
-import { getListMovies } from '../../utils/movie';
+import { getListMovies, randomMovie } from '../../utils/movie';
 
 function Home() {
   
   const [nowMovies, setNowMovies] = useState([]);
   const [popularMovies, setPopularMovies] = useState([]);
   const [topMovies, setTopMovies] = useState([]);
+  const [bannerMovie, setBannerMovie] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isActive = true;
+    const ac = new AbortController();
 
     async function getMovies() {
       const [nowData, popularData, topData] = await Promise.all([
@@ -52,18 +55,36 @@ function Home() {
         }),
       ])
 
-      const nowList = getListMovies(10, nowData.data.results);
-      const popularList = getListMovies(5, popularData.data.results);
-      const topList = getListMovies(10, topData.data.results);
+      if(isActive) {
+        const nowList = getListMovies(10, nowData.data.results);
+        const popularList = getListMovies(5, popularData.data.results);
+        const topList = getListMovies(10, topData.data.results);
 
-      setNowMovies(nowList);
-      setPopularMovies(popularList);
-      setTopMovies(topList);
+        setBannerMovie(nowData.data.results[randomMovie(nowData.data.results)])
+  
+        setNowMovies(nowList);
+        setPopularMovies(popularList);
+        setTopMovies(topList);
+        setLoading(false)
+      }
 
     }
 
     getMovies();
+
+    return () => {
+      isActive = false;
+      ac.abort();
+    }
   }, [])
+
+  if(loading) {
+    return(
+      <Container>
+        <ActivityIndicator size="large" color="#fff" />
+      </Container>
+    )
+  }
 
   return (
     <Container>
@@ -83,7 +104,7 @@ function Home() {
           <Banner
             resizeMethod="resize"
             source={{
-              uri: 'https://images.unsplash.com/photo-1563381013529-1c922c80ac8d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1113&q=80'
+              uri: `https://image.tmdb.org/t/p/original/${bannerMovie.poster_path}`
             }}
           />
         </BannerButton>
