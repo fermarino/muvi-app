@@ -8,8 +8,11 @@ import {
   Title,
   RatingArea,
   Rate,
-  GenreList
+  GenreList,
+  Description
 } from './styles';
+
+import { ScrollView } from 'react-native';
 
 import { Feather, Ionicons } from '@expo/vector-icons';
 
@@ -93,6 +96,13 @@ function Details() {
         keyExtractor={ (item) => String(item.id) }
         renderItem={( {item} ) =>  <Genres data={item} />}
        />
+
+       <ScrollView>
+        <Title>Sinopse</Title>
+        <Description>{movie?.overview}</Description>
+       </ScrollView>
+
+
     </Container>
   );
 }

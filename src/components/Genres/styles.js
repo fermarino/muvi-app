@@ -2,10 +2,11 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   background-color: #4c4bcc;
-  margin-left: 14px;
   padding: 5px;
   border-radius: 8px;
-  width: 90px;
+  margin-left: 2px;
+  margin-right: 12px;
+  min-width: 90px;
   height: 30px;
 `
 

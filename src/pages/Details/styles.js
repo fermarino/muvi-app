@@ -40,7 +40,7 @@ export const LinkButton = styled.TouchableOpacity`
   right: 13px;
   justify-content: center;
   align-items: center;
-  background-color: rgb( 0, 0, 0 );
+  background-color: #4c4bcc;
   border-radius: 35px;
   height: 55px;
   width: 55px;
@@ -51,7 +51,7 @@ export const Title = styled.Text`
   color: #fff;
   font-size: 24px;
   font-weight: bold;
-  padding: 8px 14px;
+  padding: 14px 14px;
 `
 
 export const RatingArea = styled.View`
@@ -74,6 +74,15 @@ export const Rate = styled.Text`
 `
 
 export const GenreList = styled.FlatList`
-  
+  padding-left: 14px;
+  margin-right: 12px;
+  min-height: 40px;
+`
+
+export const Description = styled.Text`
+  color: #fff;
+  line-height: 22px;
+  padding-left: 14px;
+  padding-bottom: 40px
 `
 
