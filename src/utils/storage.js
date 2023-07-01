@@ -3,11 +3,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export async function getSaveMovies(key) {
   const myMovies = await AsyncStorage.getItem(key)
 
-  let saveMovies = JSON.parse(myMovies) || [];
+  let savedMovies = JSON.parse(myMovies) || [];
 
-  return saveMovies;
+  return savedMovies;
 }
 
+// Salvar filme
 export async function saveMovie(key, newMovie) {
   let storedMovies = await getSaveMovies(key);
 
@@ -39,7 +40,7 @@ export async function deleteMovie(id) {
 
 // Filtrar filmes salvos 
 
-export async function hasMovie() {
+export async function hasMovie(movie) {
   let storedMovies = await getSaveMovies('@muvi');
 
   const hasMovie = storedMovies.find( item => item.id === movie.id );
@@ -49,5 +50,4 @@ export async function hasMovie() {
   }
 
   return false;
-
 }

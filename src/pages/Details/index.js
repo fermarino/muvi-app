@@ -20,8 +20,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import api, { key } from '../../services/api';
 import Genres from '../../components/Genres';
 
-import { saveMovie } from '../../utils/storage'
-
+import { saveMovie, hasMovie, deleteMovie } from '../../utils/storage';
 
 function Details() {
   const navigation = useNavigation();
@@ -29,69 +28,80 @@ function Details() {
 
   const [movie, setMovie] = useState({});
   const [openLink, setOpenLink] = useState(false);
+  const [favoritedMovie, setFavoritedMovie] = useState(false);
 
   useEffect(() => {
     let isActive = true;
 
     async function getMovie() {
-      const response = await api.get(`/movie/${route.params?.id}`, {
-        params: {
-          api_key: key,
-          language: 'pt-BR', 
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+      const response = await api
+        .get(`/movie/${route.params?.id}`, {
+          params: {
+            api_key: key,
+            language: 'pt-BR'
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
 
-      if(isActive) {
-        setMovie(response.data)
+      if (isActive) {
+        setMovie(response.data);
+        const isFavorite = await hasMovie(response.data);
+        setFavoritedMovie(isFavorite);
       }
-
     }
 
-    if(isActive) {
+    if (isActive) {
       getMovie();
     }
 
     return () => {
-      isActive = false
+      isActive = false;
+    };
+  }, []);
+
+  async function handleFavoriteMovie(movie) {
+
+    if(favoritedMovie) {
+      await deleteMovie(movie.id);
+      setFavoritedMovie(false);
+    }else {
+      await saveMovie('@muvi', movie);
+      setFavoritedMovie(true);
+      alert('filme salvo')
     }
-
-  }, [])
-
-  async function favoriteMovie(movie) {
-    await saveMovie('@muvi', movie)
   }
 
   return (
     <Container>
       <Header>
-        <HeaderButton activeOpacity={0.7} onPress={ () => navigation.goBack() } >
-          <Feather
-            name="arrow-left"
-            size={25}
-            color="#fff" />
+        <HeaderButton activeOpacity={0.7} onPress={() => navigation.goBack()}>
+          <Feather name="arrow-left" size={25} color="#fff" />
         </HeaderButton>
-        <HeaderButton activeOpacity={0.7} onPress={ () => favoriteMovie(movie)} >
-          <Ionicons
-            name="bookmark-outline"
-            size={25}
-            color="#fff" />
+        
+        <HeaderButton activeOpacity={0.7} onPress={() => handleFavoriteMovie(movie)}>
+          {favoritedMovie ? (
+            <Ionicons name="bookmark" size={25} color="#fff" />
+          ) : (
+            <Ionicons name="bookmark-outline" size={25} color="#fff" />
+          )}
         </HeaderButton>
       </Header>
 
       <Banner
-        resizeMethod='resize'
-        source={{ uri: `https://image.tmdb.org/t/p/original/${movie.backdrop_path}` }}
+        resizeMethod="resize"
+        source={{
+          uri: `https://image.tmdb.org/t/p/original/${movie.backdrop_path}`
+        }}
       />
 
       <LinkButton onPress={() => setOpenLink(true)}>
-        <Feather name="link" size={20} color="#fff"/>
+        <Feather name="link" size={20} color="#fff" />
       </LinkButton>
 
       <RatingArea>
-        <Ionicons name='star' size={18} color='#000'/>
+        <Ionicons name="star" size={18} color="#000" />
         <Rate>{movie.vote_average}/10</Rate>
       </RatingArea>
 
@@ -101,14 +111,14 @@ function Details() {
         data={movie?.genres}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        keyExtractor={ (item) => String(item.id) }
-        renderItem={( {item} ) =>  <Genres data={item} />}
-       />
+        keyExtractor={item => String(item.id)}
+        renderItem={({ item }) => <Genres data={item} />}
+      />
 
-       <ScrollView>
+      <ScrollView>
         <Title>Sinopse</Title>
         <Description>{movie?.overview}</Description>
-       </ScrollView>
+      </ScrollView>
     </Container>
   );
 }
