@@ -16,6 +16,9 @@ import {
 function SearchMovie({ data, navigatePage }) {
   
   function movieDetails() {
+    if(data.release_date === '') {
+      return;
+    }
     navigatePage(data);
   }
   

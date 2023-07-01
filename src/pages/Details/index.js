@@ -20,6 +20,8 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import api, { key } from '../../services/api';
 import Genres from '../../components/Genres';
 
+import { saveMovie } from '../../utils/storage'
+
 
 function Details() {
   const navigation = useNavigation();
@@ -58,6 +60,10 @@ function Details() {
 
   }, [])
 
+  async function favoriteMovie(movie) {
+    await saveMovie('@muvi', movie)
+  }
+
   return (
     <Container>
       <Header>
@@ -67,9 +73,9 @@ function Details() {
             size={25}
             color="#fff" />
         </HeaderButton>
-        <HeaderButton activeOpacity={0.7}>
+        <HeaderButton activeOpacity={0.7} onPress={ () => favoriteMovie(movie)} >
           <Ionicons
-            name="bookmark"
+            name="bookmark-outline"
             size={25}
             color="#fff" />
         </HeaderButton>
