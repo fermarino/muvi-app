@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Ionicons } from '@expo/vector-icons';
+
 import {
   Container,
   Banner,
@@ -10,11 +12,15 @@ import {
   MovieInfos
 } from './styles';
 
-import { Ionicons } from '@expo/vector-icons';
 
-function SearchMovie({ data }) {
+function SearchMovie({ data, navigatePage }) {
+  
+  function movieDetails() {
+    navigatePage(data);
+  }
+  
   return (
-    <Container>
+    <Container onPress={movieDetails}>
       {data?.poster_path ? (
         <Banner
           resizeMethod="resize"

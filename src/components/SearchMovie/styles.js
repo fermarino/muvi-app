@@ -1,13 +1,14 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const Container = styled.TouchableOpacity`
   padding: 15px;
 `
 
 export const Banner = styled.Image`
   border-radius: 10px;
   width: 100%;
-  height: 250px;
+  height: 300px;
+  object-fit: fill;
 `
 
 export const Title = styled.Text`

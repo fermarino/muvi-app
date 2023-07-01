@@ -44,6 +44,10 @@ function Search() {
 
   }, [])
 
+  function navigateToDetailsPage(item) {
+    navigation.navigate('Details', { id: item.id })
+  }
+
   if(loading) {
     return (
       <Container></Container>
@@ -56,7 +60,7 @@ function Search() {
         data={movie}
         showsVerticalScrollIndicator={false}
         keyExtractor={ (item) => String(item.id) }
-        renderItem={ ({item}) => <SearchMovie data={item} /> }
+        renderItem={ ({item}) => <SearchMovie data={item} navigatePage={ () => navigateToDetailsPage(item) }/> }
       />
     </Container>
   )
