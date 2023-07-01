@@ -26,6 +26,7 @@ function Home() {
   const [popularMovies, setPopularMovies] = useState([]);
   const [topMovies, setTopMovies] = useState([]);
   const [bannerMovie, setBannerMovie] = useState({});
+  const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
 
   const navigation = useNavigation();
@@ -87,6 +88,13 @@ function Home() {
     navigation.navigate('Details', { id: item.id });
   }
 
+  function handleSearchMovie() {
+    if(search === '') return;
+
+    navigation.navigate('Search', { name: search })
+    setSearch('');
+  }
+
   if(loading) {
     return(
       <Container>
@@ -100,8 +108,13 @@ function Home() {
       <Header title="Muvi" />
 
       <SearchContainer>
-        <Input placeholder="Pesquisar filme" placeholderTextColor="#495057" />
-        <SearchButton>
+        <Input
+          placeholder="Pesquisar filme"
+          placeholderTextColor="#495057"
+          value={search}
+          onChangeText={ (text) => setSearch(text) }
+          />
+        <SearchButton onPress={handleSearchMovie}>
           <Feather name="search" size={25} color="#fff" />
         </SearchButton>
       </SearchContainer>

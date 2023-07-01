@@ -12,7 +12,7 @@ import {
   Description
 } from './styles';
 
-import { ScrollView } from 'react-native';
+import { ScrollView, Modal } from 'react-native';
 
 import { Feather, Ionicons } from '@expo/vector-icons';
 
@@ -20,11 +20,13 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import api, { key } from '../../services/api';
 import Genres from '../../components/Genres';
 
+
 function Details() {
   const navigation = useNavigation();
   const route = useRoute();
 
   const [movie, setMovie] = useState({});
+  const [openLink, setOpenLink] = useState(false);
 
   useEffect(() => {
     let isActive = true;
@@ -78,7 +80,7 @@ function Details() {
         source={{ uri: `https://image.tmdb.org/t/p/original/${movie.backdrop_path}` }}
       />
 
-      <LinkButton>
+      <LinkButton onPress={() => setOpenLink(true)}>
         <Feather name="link" size={20} color="#fff"/>
       </LinkButton>
 
@@ -101,8 +103,6 @@ function Details() {
         <Title>Sinopse</Title>
         <Description>{movie?.overview}</Description>
        </ScrollView>
-
-
     </Container>
   );
 }
