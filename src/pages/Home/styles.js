@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export const Container = styled.SafeAreaView`
   background-color: #010D22;
@@ -10,9 +11,9 @@ export const SearchContainer = styled.View`
   flex-direction: row;
   align-items: center;
   padding: 0 14px;
-  margin-bottom: 8px;
+  margin: 14px 0;
   
-  height: 50px;
+  height: 60px;
   width: 100%;
 
 `;
@@ -40,7 +41,7 @@ export const SearchButton = styled.TouchableOpacity`
 
 export const Title = styled.Text`
   color: #fff;
-  margin: 20px 0 10px 15px;
+  margin: 18px 0 10px 15px;
   font-size: 24px;
   font-weight: bold;
 `;
@@ -48,9 +49,23 @@ export const Title = styled.Text`
 export const BannerButton = styled.TouchableOpacity`
 `;
 
-export const Banner = styled.Image`
-  border-radius: 15px;
-  height: 250px;
+
+export const Overlay = styled(LinearGradient).attrs({
+  colors: ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.8)'],
+  start: { x: 0, y: 0 },
+  end: { x: 0, y: 1 },
+})`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+`;
+
+export const Banner = styled.ImageBackground`
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  height: 420px;
   margin: 0 2px;
   object-fit: fill;
 `;
